@@ -43,7 +43,3 @@ kotlin {
 flutter {
     source = "../.."
 }
-
-dependencies {
-    implementation("com.google.android.ads.nativetemplates:nativetemplates:0.1.0")
-}

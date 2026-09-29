@@ -137,7 +137,10 @@ class AdService {
 
     if (showTestAd) {
       final configuration = RequestConfiguration(
-        testDeviceIds: ['4BC910E4DFECC2E55D145CE0E1119FF2'],
+        testDeviceIds: [
+          '4BC910E4DFECC2E55D145CE0E1119FF2',
+          '10BF7R0GUZ005YM',
+        ],
       );
       await MobileAds.instance.updateRequestConfiguration(configuration);
     }
