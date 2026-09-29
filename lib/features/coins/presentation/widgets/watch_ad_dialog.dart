@@ -5,11 +5,29 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import '../../bloc/coin_bloc.dart';
 import '../../bloc/coin_event.dart';
+import '../../../../core/services/ad_service.dart';
 
 class WatchAdDialog extends StatefulWidget {
   const WatchAdDialog({super.key});
 
-  static Future<void> show(BuildContext context) {
+  static Future<void> show(BuildContext context) async {
+    AdService.instance.showRewardedAd(
+      onUserEarnedReward: (reward) {
+        if (context.mounted) {
+          context.read<CoinBloc>().add(const EarnCoinFromAdEvent(coins: 10));
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Claimed +10 Coins from Google Rewarded Ad! 🪙'),
+              backgroundColor: Color(0xFFFFE500),
+            ),
+          );
+        }
+      },
+      onAdClosed: () {
+        // Backup dialog fallback
+      },
+    );
+
     return showDialog(
       context: context,
       barrierDismissible: false,

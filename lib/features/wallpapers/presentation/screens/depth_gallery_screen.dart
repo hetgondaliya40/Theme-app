@@ -9,6 +9,7 @@ import '../../bloc/wallpaper_state.dart';
 import '../widgets/depth_card.dart';
 import '../../../coins/presentation/widgets/coin_badge_widget.dart';
 import 'depth_detail_screen.dart';
+import '../../../../core/services/ad_service.dart';
 
 class DepthGalleryScreen extends StatelessWidget {
   const DepthGalleryScreen({super.key});
@@ -26,6 +27,16 @@ class DepthGalleryScreen extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 100),
               children: [
                 const SizedBox(height: 16),
+
+                // TOP BANNER AD IMPRESSION
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 12.0),
+                  child: Center(
+                    child: BannerAdWidget(
+                      adUnitId: AdService.galleryBannerAdUnitId,
+                    ),
+                  ),
+                ),
 
                 // Top Header: "Collection" + Coin Badge Widget (Replaces Go Premium)
                 Padding(
@@ -193,12 +204,17 @@ class DepthGalleryScreen extends StatelessWidget {
                     context
                         .read<WallpaperBloc>()
                         .add(SelectActiveWallpaperEvent(item));
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) =>
-                            DepthDetailScreen(wallpaper: item),
-                      ),
+                    AdService.instance.showInterstitialAd(
+                      adUnitId: AdService.detailInterstitialAdUnitId,
+                      onAdClosed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                DepthDetailScreen(wallpaper: item),
+                          ),
+                        );
+                      },
                     );
                   },
                 ),

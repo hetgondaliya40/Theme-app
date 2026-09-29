@@ -5,6 +5,7 @@ import '../../../coins/bloc/coin_bloc.dart';
 import '../../../coins/bloc/coin_state.dart';
 import '../../../coins/presentation/screens/coin_store_screen.dart';
 import '../../../../core/services/wallpaper_theme_service.dart';
+import '../../../../core/services/ad_service.dart';
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -83,7 +84,16 @@ class SettingsScreen extends StatelessWidget {
                     letterSpacing: -0.5,
                   ),
                 ),
-                const SizedBox(height: 20),
+                const SizedBox(height: 16),
+
+                // ADMOB BANNER AD IMPRESSION
+                Center(
+                  child: BannerAdWidget(
+                    adUnitId: AdService.settingsBannerAdUnitId,
+                  ),
+                ),
+
+                const SizedBox(height: 16),
 
                 // Rewards & Coins Balance Card
                 Container(

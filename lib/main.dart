@@ -13,9 +13,9 @@ import 'features/wallpapers/presentation/screens/depth_gallery_screen.dart';
 import 'features/wallpapers/presentation/screens/wallpapers_screen.dart';
 import 'features/themes/presentation/screens/settings_screen.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  InjectionContainer.init();
+  await InjectionContainer.init();
 
   runApp(
     MultiBlocProvider(
