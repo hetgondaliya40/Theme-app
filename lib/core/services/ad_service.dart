@@ -425,7 +425,9 @@ class NativeAdWidget extends StatefulWidget {
 
 class _NativeAdWidgetState extends State<NativeAdWidget> {
   NativeAd? _nativeAd;
-  bool _isLoaded = false;
+  BannerAd? _fallbackBannerAd;
+  bool _isNativeLoaded = false;
+  bool _isBannerLoaded = false;
 
   @override
   void initState() {
@@ -472,29 +474,62 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
           onAdLoaded: (ad) {
             if (mounted) {
               setState(() {
-                _isLoaded = true;
+                _isNativeLoaded = true;
               });
             }
           },
           onAdFailedToLoad: (ad, error) {
             debugPrint('Native ad failed to load ($_resolvedAdUnitId): $error');
             ad.dispose();
+            _nativeAd = null;
+            _loadFallbackBannerAd();
           },
         ),
       );
       _nativeAd?.load();
+    } catch (_) {
+      _loadFallbackBannerAd();
+    }
+  }
+
+  void _loadFallbackBannerAd() {
+    try {
+      final adSize = widget.size == NativeAdSize.small
+          ? AdSize.banner
+          : AdSize.mediumRectangle;
+
+      _fallbackBannerAd = BannerAd(
+        adUnitId: AdService.wallpapersBannerAdUnitId,
+        size: adSize,
+        request: const AdRequest(),
+        listener: BannerAdListener(
+          onAdLoaded: (ad) {
+            if (mounted) {
+              setState(() {
+                _isBannerLoaded = true;
+              });
+            }
+          },
+          onAdFailedToLoad: (ad, error) {
+            debugPrint('Fallback banner ad failed to load: $error');
+            ad.dispose();
+            _fallbackBannerAd = null;
+          },
+        ),
+      )..load();
     } catch (_) {}
   }
 
   @override
   void dispose() {
     _nativeAd?.dispose();
+    _fallbackBannerAd?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_isLoaded && _nativeAd != null) {
+    if (_isNativeLoaded && _nativeAd != null) {
       return Container(
         height: _height,
         margin: const EdgeInsets.symmetric(vertical: 8),
@@ -507,6 +542,23 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
           ),
         ),
         child: AdWidget(ad: _nativeAd!),
+      );
+    }
+
+    if (_isBannerLoaded && _fallbackBannerAd != null) {
+      return Container(
+        height: _height,
+        alignment: Alignment.center,
+        margin: const EdgeInsets.symmetric(vertical: 8),
+        padding: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          color: const Color(0xFF1B1B22),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: const Color(0xFFFFE500).withValues(alpha: 0.3),
+          ),
+        ),
+        child: AdWidget(ad: _fallbackBannerAd!),
       );
     }
 
