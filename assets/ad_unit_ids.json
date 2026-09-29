@@ -1,67 +1,13 @@
 {
-  "app_name": "ThemeCraft",
-  "admob_app_id": {
-    "android": "ca-app-pub-3940256099942544~3347511713",
-    "ios": "ca-app-pub-3940256099942544~1458002511"
-  },
-  "test_device_ids": [
-    "4BC910E4DFECC2E55D145CE0E1119FF2"
-  ],
-  "ad_units": {
-    "app_open": {
-      "placement": "App Launch / Splash Screen",
-      "android": "ca-app-pub-3940256099942544/9257395921",
-      "ios": "ca-app-pub-3940256099942544/5575463023"
-    },
-    "banner_gallery": {
-      "placement": "Gallery Collection Top Banner",
-      "android": "ca-app-pub-3940256099942544/6300978111",
-      "ios": "ca-app-pub-3940256099942544/2934735716"
-    },
-    "banner_wallpapers": {
-      "placement": "Wallpapers Feed Top Banner",
-      "android": "ca-app-pub-3940256099942544/6300978111",
-      "ios": "ca-app-pub-3940256099942544/2934735716"
-    },
-    "banner_settings": {
-      "placement": "Settings Screen Top Banner",
-      "android": "ca-app-pub-3940256099942544/6300978111",
-      "ios": "ca-app-pub-3940256099942544/2934735716"
-    },
-    "banner_coin_store": {
-      "placement": "Coin Store Top Banner",
-      "android": "ca-app-pub-3940256099942544/6300978111",
-      "ios": "ca-app-pub-3940256099942544/2934735716"
-    },
-    "interstitial_detail": {
-      "placement": "Wallpaper Card Tap / Open Detail",
-      "android": "ca-app-pub-3940256099942544/1033173712",
-      "ios": "ca-app-pub-3940256099942544/4486956720"
-    },
-    "interstitial_apply": {
-      "placement": "Set Wallpaper Action Trigger",
-      "android": "ca-app-pub-3940256099942544/1033173712",
-      "ios": "ca-app-pub-3940256099942544/4486956720"
-    },
-    "rewarded_coins": {
-      "placement": "Watch Rewarded Ad (+10 Coins)",
-      "android": "ca-app-pub-3940256099942544/5224354917",
-      "ios": "ca-app-pub-3940256099942544/1712485313"
-    },
-    "native_small": {
-      "placement": "Settings Screen Inline List (Small 90px)",
-      "android": "ca-app-pub-3940256099942544/2241692871",
-      "ios": "ca-app-pub-3940256099942544/3986624511"
-    },
-    "native_medium": {
-      "placement": "Wallpapers Feed Grid Card (Medium 280px)",
-      "android": "ca-app-pub-3940256099942544/2241692871",
-      "ios": "ca-app-pub-3940256099942544/3986624511"
-    },
-    "native_large": {
-      "placement": "Gallery Collection Featured Section (Large 380px)",
-      "android": "ca-app-pub-3940256099942544/2241692871",
-      "ios": "ca-app-pub-3940256099942544/3986624511"
-    }
-  }
+  "App open": "ca-app-pub-3940256099942544/9257395921",
+  "Banner Gallery": "ca-app-pub-3940256099942544/6300978111",
+  "Banner Wallpapers": "ca-app-pub-3940256099942544/6300978111",
+  "Banner Settings": "ca-app-pub-3940256099942544/6300978111",
+  "Banner Coin Store": "ca-app-pub-3940256099942544/6300978111",
+  "Interstitial Detail": "ca-app-pub-3940256099942544/1033173712",
+  "Interstitial Apply": "ca-app-pub-3940256099942544/1033173712",
+  "Rewarded Coins": "ca-app-pub-3940256099942544/5224354917",
+  "Native Small": "ca-app-pub-3940256099942544/2241692871",
+  "Native Medium": "ca-app-pub-3940256099942544/2241692871",
+  "Native Large": "ca-app-pub-3940256099942544/2241692871"
 }
