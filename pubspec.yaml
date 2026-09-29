@@ -56,6 +56,7 @@ flutter:
   uses-material-design: true
   assets:
     - assets/icon/
+    - assets/ad_unit_ids.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:
