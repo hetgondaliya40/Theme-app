@@ -15,7 +15,7 @@ class AdService {
   /// SINGLE CENTRAL BOOLEAN CONFIGURATION FOR ALL ADS
   /// Set [showTestAd] = true to display Google Test Ads across all features.
   /// Set [showTestAd] = false to display Real Production Ads loaded from assets/ad_unit_ids.json.
-  static bool showTestAd = false;
+  static bool showTestAd = true;
 
   static Map<String, String> _realAdUnitIds = {};
   bool _isInitialized = false;
@@ -380,6 +380,7 @@ class _BannerAdWidgetState extends State<BannerAdWidget> {
           }
         },
         onAdFailedToLoad: (ad, error) {
+          debugPrint('Banner ad failed to load ($widget.adUnitId): $error');
           ad.dispose();
         },
       ),
@@ -476,6 +477,7 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
             }
           },
           onAdFailedToLoad: (ad, error) {
+            debugPrint('Native ad failed to load ($_resolvedAdUnitId): $error');
             ad.dispose();
           },
         ),
