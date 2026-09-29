@@ -175,6 +175,10 @@ class SettingsScreen extends StatelessWidget {
                 _buildSectionHeader('SYSTEM & PREFERENCES'),
                 const SizedBox(height: 12),
 
+                // SMALL NATIVE AD IMPRESSION
+                const NativeAdWidget(size: NativeAdSize.small),
+                const SizedBox(height: 12),
+
                 _buildSettingsItem(
                   icon: Icons.security_rounded,
                   title: 'Device Storage & Permissions',

@@ -103,16 +103,25 @@ class DepthGalleryScreen extends StatelessWidget {
                           w.tags.any((t) =>
                               t.toLowerCase().contains(catName.toLowerCase())))
                       .toList();
-                  return Padding(
-                    padding: const EdgeInsets.only(bottom: 24.0),
-                    child: _buildCategorySection(
-                      context,
-                      title: catName,
-                      items: catItems.isEmpty
-                          ? allWallpapers.take(12).toList()
-                          : catItems,
-                      state: state,
-                    ),
+                  return Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 24.0),
+                        child: _buildCategorySection(
+                          context,
+                          title: catName,
+                          items: catItems.isEmpty
+                              ? allWallpapers.take(12).toList()
+                              : catItems,
+                          state: state,
+                        ),
+                      ),
+                      if (catName == 'Architecture')
+                        const Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 12.0),
+                          child: NativeAdWidget(size: NativeAdSize.large),
+                        ),
+                    ],
                   );
                 }),
               ],
