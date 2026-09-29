@@ -140,6 +140,7 @@ class AdService {
         testDeviceIds: [
           '4BC910E4DFECC2E55D145CE0E1119FF2',
           '10BF7R0GUZ005YM',
+          '0575770E7D1A01983025DCD5B2AF9FD6',
         ],
       );
       await MobileAds.instance.updateRequestConfiguration(configuration);
