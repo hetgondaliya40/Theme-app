@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../../wallpapers/bloc/wallpaper_bloc.dart';
-import '../../../wallpapers/bloc/wallpaper_state.dart';
+import '../../../coins/bloc/coin_bloc.dart';
+import '../../../coins/bloc/coin_state.dart';
 import '../../../coins/presentation/screens/coin_store_screen.dart';
 import '../../../../core/services/wallpaper_theme_service.dart';
 
@@ -69,8 +69,8 @@ class SettingsScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.black,
       body: SafeArea(
-        child: BlocBuilder<WallpaperBloc, WallpaperState>(
-          builder: (context, wallpaperState) {
+        child: BlocBuilder<CoinBloc, CoinState>(
+          builder: (context, coinState) {
             return ListView(
               padding: const EdgeInsets.fromLTRB(20, 16, 20, 100),
               children: [
@@ -112,7 +112,7 @@ class SettingsScreen extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${wallpaperState.coinBalance} Coins Available',
+                              '${coinState.coinBalance} Coins Available',
                               style: GoogleFonts.outfit(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,

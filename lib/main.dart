@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'core/di/injection_container.dart';
 import 'core/theme/app_theme.dart';
-import 'features/wallpapers/data/repositories/wallpaper_repository.dart';
 import 'features/wallpapers/bloc/wallpaper_bloc.dart';
 import 'features/wallpapers/bloc/wallpaper_event.dart';
+import 'features/coins/bloc/coin_bloc.dart';
+import 'features/coins/bloc/coin_event.dart';
 import 'features/themes/bloc/theme_bloc.dart';
 import 'features/themes/bloc/theme_state.dart';
 import 'features/splash/presentation/screens/splash_screen.dart';
@@ -13,14 +15,17 @@ import 'features/themes/presentation/screens/settings_screen.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  final repository = WallpaperRepositoryImpl();
+  InjectionContainer.init();
 
   runApp(
     MultiBlocProvider(
       providers: [
         BlocProvider<WallpaperBloc>(
-          create: (_) => WallpaperBloc(repository: repository)
+          create: (_) => WallpaperBloc(repository: InjectionContainer.wallpaperRepository)
             ..add(const LoadWallpapersEvent()),
+        ),
+        BlocProvider<CoinBloc>(
+          create: (_) => CoinBloc()..add(const LoadCoinsEvent()),
         ),
         BlocProvider<ThemeBloc>(
           create: (_) => ThemeBloc(),

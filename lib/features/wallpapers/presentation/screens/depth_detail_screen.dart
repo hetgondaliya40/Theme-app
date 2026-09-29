@@ -4,6 +4,9 @@ import '../../data/models/depth_wallpaper_model.dart';
 import '../../bloc/wallpaper_bloc.dart';
 import '../../bloc/wallpaper_event.dart';
 import '../../bloc/wallpaper_state.dart';
+import '../../../coins/bloc/coin_bloc.dart';
+import '../../../coins/bloc/coin_event.dart';
+import '../../../coins/bloc/coin_state.dart';
 import '../widgets/depth_phone_simulator.dart';
 import '../../../coins/presentation/widgets/watch_ad_dialog.dart';
 import '../../../coins/presentation/widgets/coin_badge_widget.dart';
@@ -246,13 +249,13 @@ class _DepthDetailScreenState extends State<DepthDetailScreen> {
   }
 
   void _executeWithCoinCheck(
-      BuildContext context, WallpaperState state, VoidCallback onUnlockedAction) {
-    final isUnlocked = state.isWallpaperUnlocked(widget.wallpaper.id);
+      BuildContext context, CoinState coinState, VoidCallback onUnlockedAction) {
+    final isUnlocked = coinState.isWallpaperUnlocked(widget.wallpaper.id);
 
     if (isUnlocked) {
       onUnlockedAction();
     } else {
-      if (state.coinBalance >= 10) {
+      if (coinState.coinBalance >= 10) {
         showDialog(
           context: context,
           builder: (dialogCtx) => AlertDialog(
@@ -281,7 +284,7 @@ class _DepthDetailScreenState extends State<DepthDetailScreen> {
                 onPressed: () {
                   Navigator.pop(dialogCtx);
                   context
-                      .read<WallpaperBloc>()
+                      .read<CoinBloc>()
                       .add(UnlockWallpaperEvent(widget.wallpaper.id, cost: 10));
 
                   ScaffoldMessenger.of(context).showSnackBar(
@@ -351,8 +354,9 @@ class _DepthDetailScreenState extends State<DepthDetailScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<WallpaperBloc, WallpaperState>(
       builder: (context, state) {
+        final coinState = context.watch<CoinBloc>().state;
         final isFav = state.isFavorite(widget.wallpaper.id);
-        final isUnlocked = state.isWallpaperUnlocked(widget.wallpaper.id);
+        final isUnlocked = coinState.isWallpaperUnlocked(widget.wallpaper.id);
 
         return Scaffold(
           backgroundColor: const Color(0xFF0C0C10),
@@ -471,7 +475,7 @@ class _DepthDetailScreenState extends State<DepthDetailScreen> {
                         onPressed: _isApplyingWallpaper
                             ? null
                             : () {
-                                _executeWithCoinCheck(context, state, () {
+                                _executeWithCoinCheck(context, coinState, () {
                                   _showRealWallpaperOptions(context);
                                 });
                               },
@@ -508,7 +512,7 @@ class _DepthDetailScreenState extends State<DepthDetailScreen> {
                       // BUTTON 2: SAVE HD ARTWORK
                       ElevatedButton.icon(
                         onPressed: () {
-                          _executeWithCoinCheck(context, state, () async {
+                          _executeWithCoinCheck(context, coinState, () async {
                             final path =
                                 await WallpaperThemeService.saveWallpaperToStorage(
                               context: context,

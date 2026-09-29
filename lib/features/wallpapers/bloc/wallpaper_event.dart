@@ -65,31 +65,7 @@ class AddCustomWallpaperEvent extends WallpaperEvent {
   List<Object?> get props => [wallpaper];
 }
 
-class LoadCoinsEvent extends WallpaperEvent {
-  const LoadCoinsEvent();
-}
-
-class EarnCoinFromAdEvent extends WallpaperEvent {
-  final int coins;
-  const EarnCoinFromAdEvent({this.coins = 10});
-
-  @override
-  List<Object?> get props => [coins];
-}
-
-class UnlockWallpaperEvent extends WallpaperEvent {
-  final String wallpaperId;
-  final int cost;
-  const UnlockWallpaperEvent(this.wallpaperId, {this.cost = 10});
-
-  @override
-  List<Object?> get props => [wallpaperId, cost];
-}
-
-class ClaimDailyStreakEvent extends WallpaperEvent {
-  const ClaimDailyStreakEvent();
-}
-
 class LoadNextPageWallpapersEvent extends WallpaperEvent {
   const LoadNextPageWallpapersEvent();
 }
+

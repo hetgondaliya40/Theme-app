@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import '../../../wallpapers/bloc/wallpaper_bloc.dart';
-import '../../../wallpapers/bloc/wallpaper_event.dart';
-import '../../../wallpapers/bloc/wallpaper_state.dart';
+import '../../bloc/coin_bloc.dart';
+import '../../bloc/coin_event.dart';
+import '../../bloc/coin_state.dart';
 import '../widgets/watch_ad_dialog.dart';
 
 class CoinStoreScreen extends StatelessWidget {
@@ -15,7 +15,7 @@ class CoinStoreScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: const Color(0xFF09090D),
       body: SafeArea(
-        child: BlocBuilder<WallpaperBloc, WallpaperState>(
+        child: BlocBuilder<CoinBloc, CoinState>(
           builder: (context, state) {
             return Column(
               children: [
@@ -178,7 +178,7 @@ class CoinStoreScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildDailyStreakSection(BuildContext context, WallpaperState state) {
+  Widget _buildDailyStreakSection(BuildContext context, CoinState state) {
     return Container(
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
@@ -325,7 +325,7 @@ class CoinStoreScreen extends StatelessWidget {
             ElevatedButton.icon(
               onPressed: () {
                 context
-                    .read<WallpaperBloc>()
+                    .read<CoinBloc>()
                     .add(const ClaimDailyStreakEvent());
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

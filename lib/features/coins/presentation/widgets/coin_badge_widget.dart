@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../wallpapers/bloc/wallpaper_bloc.dart';
-import '../../../wallpapers/bloc/wallpaper_state.dart';
+import '../../bloc/coin_bloc.dart';
+import '../../bloc/coin_state.dart';
 import '../screens/coin_store_screen.dart';
 
 class CoinBadgeWidget extends StatelessWidget {
@@ -9,7 +9,7 @@ class CoinBadgeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<WallpaperBloc, WallpaperState>(
+    return BlocBuilder<CoinBloc, CoinState>(
       builder: (context, state) {
         return GestureDetector(
           onTap: () {
