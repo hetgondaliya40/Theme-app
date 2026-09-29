@@ -15,7 +15,7 @@ class AdService {
   /// SINGLE CENTRAL BOOLEAN CONFIGURATION FOR ALL ADS
   /// Set [showTestAd] = true to display Google Test Ads across all features.
   /// Set [showTestAd] = false to display Real Production Ads loaded from assets/ad_unit_ids.json.
-  static bool showTestAd = true;
+  static bool showTestAd = false;
 
   static Map<String, String> _realAdUnitIds = {};
   bool _isInitialized = false;
