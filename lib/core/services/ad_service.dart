@@ -398,30 +398,32 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
   }
 
   void _loadNativeAd() {
-    _nativeAd = NativeAd(
-      adUnitId: _resolvedAdUnitId,
-      request: const AdRequest(),
-      nativeTemplateStyle: NativeTemplateStyle(
-        templateType: widget.size == NativeAdSize.small
-            ? TemplateType.small
-            : TemplateType.medium,
-        mainBackgroundColor: const Color(0xFF14141A),
-        cornerRadius: 16.0,
-      ),
-      listener: NativeAdListener(
-        onAdLoaded: (ad) {
-          if (mounted) {
-            setState(() {
-              _isLoaded = true;
-            });
-          }
-        },
-        onAdFailedToLoad: (ad, error) {
-          ad.dispose();
-        },
-      ),
-    );
-    _nativeAd?.load();
+    try {
+      _nativeAd = NativeAd(
+        adUnitId: _resolvedAdUnitId,
+        request: const AdRequest(),
+        nativeTemplateStyle: NativeTemplateStyle(
+          templateType: widget.size == NativeAdSize.small
+              ? TemplateType.small
+              : TemplateType.medium,
+          mainBackgroundColor: const Color(0xFF14141A),
+          cornerRadius: 16.0,
+        ),
+        listener: NativeAdListener(
+          onAdLoaded: (ad) {
+            if (mounted) {
+              setState(() {
+                _isLoaded = true;
+              });
+            }
+          },
+          onAdFailedToLoad: (ad, error) {
+            ad.dispose();
+          },
+        ),
+      );
+      _nativeAd?.load();
+    } catch (_) {}
   }
 
   @override
