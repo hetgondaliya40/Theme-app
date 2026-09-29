@@ -1,5 +1,7 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -10,6 +12,12 @@ class AdService {
   AdService._();
   static final AdService instance = AdService._();
 
+  /// SINGLE CENTRAL BOOLEAN CONFIGURATION FOR ALL ADS
+  /// Set [showTestAd] = true to display Google Test Ads across all features.
+  /// Set [showTestAd] = false to display Real Production Ads loaded from assets/ad_unit_ids.json.
+  static bool showTestAd = true;
+
+  static Map<String, String> _realAdUnitIds = {};
   bool _isInitialized = false;
 
   // Preloaded Cache Slots
@@ -22,67 +30,117 @@ class AdService {
   bool _isPreloadingAppOpen = false;
 
   // OFFICIAL GOOGLE TEST AD UNIT IDS (ANDROID & IOS)
+  static const String _testAppOpenAndroid = 'ca-app-pub-3940256099942544/9257395921';
+  static const String _testAppOpenIOS = 'ca-app-pub-3940256099942544/5575463023';
+
+  static const String _testBannerAndroid = 'ca-app-pub-3940256099942544/6300978111';
+  static const String _testBannerIOS = 'ca-app-pub-3940256099942544/2934735716';
+
+  static const String _testInterstitialAndroid = 'ca-app-pub-3940256099942544/1033173712';
+  static const String _testInterstitialIOS = 'ca-app-pub-3940256099942544/4486956720';
+
+  static const String _testRewardedAndroid = 'ca-app-pub-3940256099942544/5224354917';
+  static const String _testRewardedIOS = 'ca-app-pub-3940256099942544/1712485313';
+
+  static const String _testNativeAndroid = 'ca-app-pub-3940256099942544/2241692871';
+  static const String _testNativeIOS = 'ca-app-pub-3940256099942544/3986624511';
+
   static String get appOpenAdUnitId {
-    if (Platform.isAndroid) return 'ca-app-pub-3940256099942544/9257395921';
-    return 'ca-app-pub-3940256099942544/5575463023';
+    if (showTestAd) {
+      return Platform.isAndroid ? _testAppOpenAndroid : _testAppOpenIOS;
+    }
+    return _realAdUnitIds['App open'] ?? (Platform.isAndroid ? _testAppOpenAndroid : _testAppOpenIOS);
   }
 
   static String get galleryBannerAdUnitId {
-    if (Platform.isAndroid) return 'ca-app-pub-3940256099942544/6300978111';
-    return 'ca-app-pub-3940256099942544/2934735716';
+    if (showTestAd) {
+      return Platform.isAndroid ? _testBannerAndroid : _testBannerIOS;
+    }
+    return _realAdUnitIds['Banner Gallery'] ?? (Platform.isAndroid ? _testBannerAndroid : _testBannerIOS);
   }
 
   static String get wallpapersBannerAdUnitId {
-    if (Platform.isAndroid) return 'ca-app-pub-3940256099942544/6300978111';
-    return 'ca-app-pub-3940256099942544/2934735716';
+    if (showTestAd) {
+      return Platform.isAndroid ? _testBannerAndroid : _testBannerIOS;
+    }
+    return _realAdUnitIds['Banner Wallpapers'] ?? (Platform.isAndroid ? _testBannerAndroid : _testBannerIOS);
   }
 
   static String get settingsBannerAdUnitId {
-    if (Platform.isAndroid) return 'ca-app-pub-3940256099942544/6300978111';
-    return 'ca-app-pub-3940256099942544/2934735716';
+    if (showTestAd) {
+      return Platform.isAndroid ? _testBannerAndroid : _testBannerIOS;
+    }
+    return _realAdUnitIds['Banner Settings'] ?? (Platform.isAndroid ? _testBannerAndroid : _testBannerIOS);
   }
 
   static String get coinStoreBannerAdUnitId {
-    if (Platform.isAndroid) return 'ca-app-pub-3940256099942544/6300978111';
-    return 'ca-app-pub-3940256099942544/2934735716';
+    if (showTestAd) {
+      return Platform.isAndroid ? _testBannerAndroid : _testBannerIOS;
+    }
+    return _realAdUnitIds['Banner Coin Store'] ?? (Platform.isAndroid ? _testBannerAndroid : _testBannerIOS);
   }
 
   static String get detailInterstitialAdUnitId {
-    if (Platform.isAndroid) return 'ca-app-pub-3940256099942544/1033173712';
-    return 'ca-app-pub-3940256099942544/4486956720';
+    if (showTestAd) {
+      return Platform.isAndroid ? _testInterstitialAndroid : _testInterstitialIOS;
+    }
+    return _realAdUnitIds['Interstitial Detail'] ?? (Platform.isAndroid ? _testInterstitialAndroid : _testInterstitialIOS);
+  }
+
+  static String get applyInterstitialAdUnitId {
+    if (showTestAd) {
+      return Platform.isAndroid ? _testInterstitialAndroid : _testInterstitialIOS;
+    }
+    return _realAdUnitIds['Interstitial Apply'] ?? (Platform.isAndroid ? _testInterstitialAndroid : _testInterstitialIOS);
   }
 
   static String get watchAdRewardedAdUnitId {
-    if (Platform.isAndroid) return 'ca-app-pub-3940256099942544/5224354917';
-    return 'ca-app-pub-3940256099942544/1712485313';
+    if (showTestAd) {
+      return Platform.isAndroid ? _testRewardedAndroid : _testRewardedIOS;
+    }
+    return _realAdUnitIds['Rewarded Coins'] ?? (Platform.isAndroid ? _testRewardedAndroid : _testRewardedIOS);
   }
 
-  // NATIVE AD TEST UNIT IDS (SMALL, MEDIUM, LARGE)
   static String get smallNativeAdUnitId {
-    if (Platform.isAndroid) return 'ca-app-pub-3940256099942544/2241692871';
-    return 'ca-app-pub-3940256099942544/3986624511';
+    if (showTestAd) {
+      return Platform.isAndroid ? _testNativeAndroid : _testNativeIOS;
+    }
+    return _realAdUnitIds['Native Small'] ?? (Platform.isAndroid ? _testNativeAndroid : _testNativeIOS);
   }
 
   static String get mediumNativeAdUnitId {
-    if (Platform.isAndroid) return 'ca-app-pub-3940256099942544/2241692871';
-    return 'ca-app-pub-3940256099942544/3986624511';
+    if (showTestAd) {
+      return Platform.isAndroid ? _testNativeAndroid : _testNativeIOS;
+    }
+    return _realAdUnitIds['Native Medium'] ?? (Platform.isAndroid ? _testNativeAndroid : _testNativeIOS);
   }
 
   static String get largeNativeAdUnitId {
-    if (Platform.isAndroid) return 'ca-app-pub-3940256099942544/2241692871';
-    return 'ca-app-pub-3940256099942544/3986624511';
+    if (showTestAd) {
+      return Platform.isAndroid ? _testNativeAndroid : _testNativeIOS;
+    }
+    return _realAdUnitIds['Native Large'] ?? (Platform.isAndroid ? _testNativeAndroid : _testNativeIOS);
   }
 
-  /// Initialize SDK & configure test device ID & start preloading cache pool
+  /// Initialize SDK, load ad_unit_ids.json, configure test device & pre-cache ads
   Future<void> init() async {
     if (_isInitialized) return;
     await MobileAds.instance.initialize();
 
-    // Register physical test device ID provided by AdMob log output
-    final configuration = RequestConfiguration(
-      testDeviceIds: ['4BC910E4DFECC2E55D145CE0E1119FF2'],
-    );
-    await MobileAds.instance.updateRequestConfiguration(configuration);
+    try {
+      final jsonString = await rootBundle.loadString('assets/ad_unit_ids.json');
+      final Map<String, dynamic> decoded = jsonDecode(jsonString);
+      _realAdUnitIds = decoded.map((key, value) => MapEntry(key, value.toString()));
+    } catch (e) {
+      debugPrint('AdService: Failed to load assets/ad_unit_ids.json: $e');
+    }
+
+    if (showTestAd) {
+      final configuration = RequestConfiguration(
+        testDeviceIds: ['4BC910E4DFECC2E55D145CE0E1119FF2'],
+      );
+      await MobileAds.instance.updateRequestConfiguration(configuration);
+    }
 
     _isInitialized = true;
 
