@@ -400,8 +400,14 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
   void _loadNativeAd() {
     _nativeAd = NativeAd(
       adUnitId: _resolvedAdUnitId,
-      factoryId: 'listTile', // Standard template factory ID
       request: const AdRequest(),
+      nativeTemplateStyle: NativeTemplateStyle(
+        templateType: widget.size == NativeAdSize.small
+            ? TemplateType.small
+            : TemplateType.medium,
+        mainBackgroundColor: const Color(0xFF14141A),
+        cornerRadius: 16.0,
+      ),
       listener: NativeAdListener(
         onAdLoaded: (ad) {
           if (mounted) {
@@ -414,7 +420,8 @@ class _NativeAdWidgetState extends State<NativeAdWidget> {
           ad.dispose();
         },
       ),
-    )..load();
+    );
+    _nativeAd?.load();
   }
 
   @override
